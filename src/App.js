@@ -1,4 +1,5 @@
 import React from "react";
+import Search from "./components/Search";
 import Accordion from "./components/Accordian";
 
 const items = [
@@ -12,14 +13,14 @@ const items = [
   },
   {
     title: "How do you use REACT",
-    CONTENT: "You use React by creating components",
+    content: "You use React by creating components",
   },
 ];
 
 export default () => {
   return (
     <div>
-      <Accordion items={items} />
+      <Search />
     </div>
   );
 };
