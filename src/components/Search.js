@@ -3,22 +3,45 @@ import axios from "axios";
 
 const Search = () => {
   const [term, setTerm] = useState("");
+  const [results, setResults] = useState([]);
 
   useEffect(() => {
     const search = async () => {
-      await axios.get("https://en.wikipedia.org/w/api.php", {
+      const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
         params: {
           action: "query",
           list: "search",
           origin: "*",
-          formation: "json",
+          format: "json",
           srsearch: term,
         },
       });
+      setResults(data.query.search);
     };
-
-    search();
+    if (term) {
+      search();
+    }
   }, [term]);
+
+  const renderedResults = results.map((result) => {
+    return (
+      <div className="item">
+        <div className="right floated content">
+          <a
+            href={`https://en.wikipedia.org?curid=${result.pageid}`}
+            className="ui button">
+            Go
+          </a>
+        </div>
+        <div className="content">
+          <div className="header" key={result.pageid}>
+            {result.title}
+          </div>
+          <span dangerouslySetInnerHTML={{ __html: result.snippet }}></span>
+        </div>
+      </div>
+    );
+  });
 
   return (
     <div>
@@ -32,6 +55,7 @@ const Search = () => {
           />
         </div>
       </div>
+      <div className="ui called list">{renderedResults}</div>
     </div>
   );
 };
