@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Search from "./components/Search";
+import Dropdown from "./components/Dropdown";
 import Accordion from "./components/Accordian";
+import Translate from "./components/translate.js";
+import Route from "./components/route";
+import Header from "./components/header.js";
 
 const items = [
   {
@@ -17,10 +21,44 @@ const items = [
   },
 ];
 
+const options = [
+  {
+    label: "The colour Red",
+    value: "red",
+  },
+  {
+    label: "The color green",
+    value: "green",
+  },
+  {
+    label: "A shade of Blue",
+    value: "blue",
+  },
+];
+
 export default () => {
+  const [selected, setSelected] = useState(options[0]);
+
   return (
     <div>
-      <Search />
+      <Header />
+      <Route path="/">
+        <Accordion items={items} />
+      </Route>
+      <Route path="/list">
+        <Search />
+      </Route>
+      <Route path="/dropdown">
+        <Dropdown
+          label="Select a Color"
+          options={options}
+          selected={selected}
+          onSelectedChange={setSelected}
+        />
+      </Route>
+      <Route path="/translate">
+        <Translate />
+      </Route>
     </div>
   );
 };
